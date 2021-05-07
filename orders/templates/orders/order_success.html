@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h3 class="text-center text-success my-3">پرداخت شما با موفقیت ثبت شد </h3>
+    <h4 class="text-center text-success my-3"> با تشکر از خرید شما</h4>
+    <h4 class="text-center text-success my-3"> شناسه پرداخت: {{ ref_id }}</h4>
+    <a href="{% url 'shop:home' %}" class="btn btn-sm btn-success">بازگشت به سایت</a>
+{% endblock content %}

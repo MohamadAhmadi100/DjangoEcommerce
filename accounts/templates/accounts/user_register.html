@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %} ثبت نام {% endblock title %}
+
+{% block content %}
+    <div class="container card col-md-6 p-2">
+        <form action="" class="form form-control" method="post" novalidate>
+            {{ form.as_p }} {% csrf_token %} <br>
+            <div class="d-flex justify-content-center">
+                <input type="submit" class="btn btn-primary" value="ثبت نام">
+            </div>
+        </form>
+    </div>
+{% endblock content %}

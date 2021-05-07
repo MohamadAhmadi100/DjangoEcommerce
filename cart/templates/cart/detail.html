@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container col-md-7 mt-5">
+        <table class="table table-sm table-hover">
+            <thead class="table-light">
+            <tr>
+                <th scope="col">ردیف</th>
+                <th scope="col">نام محصول</th>
+                <th scope="col">تعداد</th>
+                <th scope="col">قیمت واحد(ریال)</th>
+                <th scope="col">قیمت کل(ریال)</th>
+                <th scope="col">حذف</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for item in cart %}
+                <tr>
+                <th scope="row">{{ forloop.counter }}</th>
+                <td>{{ item.product }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>{{ item.price }}</td>
+                <td>{{ item.total_item_price }}</td>
+                <td><a href="{% url 'cart:remove_cart' item.product.id %}"><i class="bi bi-trash text-danger"></i></a>
+                </td>
+            {% endfor %}
+            </tbody>
+            <th>
+            <td colspan="3">جمع کل فاکتور</td>
+            <td>{{ cart.get_total_price }} ریال</td>
+            <td>
+                <a href="{% url 'orders:create' %}" class="btn btn-sm btn-success text-decoration-none">
+                    <i class="bi bi-cart-check-fill"> ثبت سفارش و پرداخت
+                    </i>
+                </a>
+            </td>
+            </th>
+        </table>
+    </div>
+{% endblock content %}

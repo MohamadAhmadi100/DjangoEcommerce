@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="bg-light">
+        <div class="jumbotron bg-light p-3">
+            {#  ***********************************  the carousel ****************************************** #}
+            <div class="container card col-md-8 p-2 ">
+                <div id="carouselExampleIndicators" class="carousel slide carousel-fade" data-bs-ride="carousel">
+                    <div class="carousel-indicators">
+                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0"
+                                class="active"
+                                aria-current="true" aria-label="Slide 1"></button>
+                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
+                                aria-label="Slide 2"></button>
+                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
+                                aria-label="Slide 3"></button>
+                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3"
+                                aria-label="Slide 4"></button>
+                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="4"
+                                aria-label="Slide 5"></button>
+
+                    </div>
+                    <div class="carousel-inner">
+                        <div class="carousel-item active" style="height: 18rem;">
+                            <img src="{{ product.album.images.last.image.url }}" class="d-block w-100"
+                                 alt="{{ product }}">
+                        </div>
+                        {% with product.album.images.all|slice:4 as fourimages %}
+                            {% for pic in fourimages %}
+                                <div class="carousel-item" style="height: 18rem;">
+                                    <img src="{{ pic.image.url }}" class="d-block w-100"
+                                         alt="{{ product }}">
+                                </div>
+                            {% endfor %}
+                        {% endwith %}
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+                                data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+                                data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            {#  ***********************************  the product ****************************************** #}
+            <div class="container card col-md-12 my-3 p-0" style="background-color: ghostwhite; ">
+                <div class="p-4">
+                    <div class="d-flex justify-content-between bg-white">
+                        <small class="p-2 text-muted d-inline">
+                            <a class="p-2 text-muted text-decoration-none"
+                               href="{{ main_category.first.get_absolute_url }}">{{ main_category.first }}</a>
+                            |
+                            <a class="p-2 text-muted text-decoration-none"
+                               href="{{ sub_categories.first.get_absolute_url }}">{{ sub_categories.first }}</a>
+                        </small>
+                        <small class="text-muted mx-5 my-2">
+                            {% if product.inventory %}
+                                <small class="text-success">🟢 موجود -</small>
+                            {% else %}
+                                <small class="text-danger">🔴 ناموجود -</small>
+                            {% endif %}
+                            {{ product.created|date }}
+                        </small>
+                    </div>
+
+                    <div class="mx-2 my-3"><small>⚫</small>
+                        <h4 class="text-muted mx-2 d-inline">{{ product }}</h4>
+                    </div>
+                    </a>
+                    <hr>
+                    <div class="row p-2">
+                        <div class="col-md-4" style="text-align: justify;">
+                            <small class="text-muted p-2">{{ product.description }}</small>
+                            <hr>
+                            <small>
+                                <form action="{% url 'cart:add_cart' product.id %}" method="post"
+                                      class="form-group"> {% csrf_token %}
+                                    <div class="container d-flex">
+                                        {{ form }}
+                                        <button type="submit" class="btn btn-success mx-2">
+                                            <i class="bi bi-cart-plus-fill"></i>
+                                        </button>
+                                    </div>
+                                </form>
+                            </small>
+                        </div>
+                        <div class="col-md-8">
+                            <img class="" src="{{ product.album.images.first.image.url }}" alt="{{ product }}"
+                                 style="height: 30rem;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-light text-center">
+                {% for pic in product.album.images.all %}
+                    {% if forloop.counter >= 2 %}
+                        <div class=" card-text-white m-2" style="width: 19rem;display: inline-block;">
+                            <img class="card-img" src="{{ pic.image.url }}" alt="{{ pic.album }}">
+                        </div>
+                    {% endif %}
+                {% endfor %}
+
+            </div>
+        </div>
+    </div
+{% endblock content %}

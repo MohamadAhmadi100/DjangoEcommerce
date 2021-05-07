@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="bg-secondary p-3">
+        {#  ***********************************  the carousel ****************************************** #}
+        <div class="container card col-md-8 p-2 ">
+            <div id="carouselExampleIndicators" class="carousel slide carousel-fade" data-bs-ride="carousel">
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0"
+                            class="active"
+                            aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
+                            aria-label="Slide 2"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
+                            aria-label="Slide 3"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3"
+                            aria-label="Slide 4"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="4"
+                            aria-label="Slide 5"></button>
+
+                </div>
+                <div class="carousel-inner">
+                    <div class="carousel-item active" style="height: 18rem;">
+                        <a href="{{ all_products.last.get_absolute_url }}">
+                            <img src="{{ all_products.last.album.images.last.image.url }}" class="d-block w-100"
+                                 alt="{{ all_products.last.album.images.last.album }}">
+                        </a>
+                        <div class="carousel-caption d-none d-md-block ">
+                            <h4 class="d-flex justify-content-end font-weight-bold text-white mx-4 px-5">
+                                {{ all_products.last }}
+                            </h4>
+                        </div>
+                    </div>
+                    {% with all_products|slice:4 as fourproducts %}
+                        {% for product in fourproducts %}
+                            <div class="carousel-item" style="height: 18rem;">
+                                <a href="{{ product.get_absolute_url }}">
+                                    <img src="{{ product.album.images.last.image.url }}" class="d-block w-100"
+                                         alt="{{ product.album.images.last.album }}">
+                                </a>
+                                <div class="carousel-caption d-none d-md-block ">
+                                    <h4 class="d-flex justify-content-end font-weight-bold text-white mx-4 px-5">
+                                        {{ product.name }}
+                                    </h4>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% endwith %}
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+                            data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+                            data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        {#  ***********************************  the products ****************************************** #}
+        <div class="container card col-md-12 my-3 p-0">
+            <div class="p-2" style="background-color: #ef394e">
+                {% for category in categories %}
+                    <a class="text-decoration-none text-dark" href="{{ category.get_absolute_url }}"><h4
+                            class="p-2 bg-light rounded">{{ category.name }}</h4></a>
+                    {% for product in category.products.all %}
+                        <a href="{{ product.get_absolute_url }}">
+                            <div class="card text-white m-2" style="width: 22rem;display: inline-block;">
+                                {% for pic in product.album.images.all %}
+                                    {% if pic.default %}
+                                        <img class="card-img" src="{{ pic.image.url }}" alt="{{ pic.album }}">
+                                    {% endif %}
+                                {% endfor %}
+                                <div class="card-img-overlay d-flex flex-column justify-content-end">
+                                    <h4 class="card-title font-weight-bold">{{ product.name }}</h4>
+                                </div>
+                            </div>
+                        </a>
+                    {% endfor %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock content %}
