@@ -12,7 +12,6 @@ urlpatterns = [
                   path('orders/', include('orders.urls', namespace='orders')),
                   path('', include('shop.urls', namespace='shop')),
                   path('api-auth/', include('rest_framework.urls')),
-                  # path('api/', include('restapi.urls', namespace='api')),
                   path('api-token-auth/', obtain_auth_token),
                   path('api/', include(router.urls)),
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
