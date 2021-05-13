@@ -76,6 +76,7 @@
                         <div class="col-md-4" style="text-align: justify;">
                             <small class="text-muted p-2">{{ product.description }}</small>
                             <hr>
+                            <small class="text-muted">قیمت: {{ product.price }} ریال</small>
                             <small>
                                 <form action="{% url 'cart:add_cart' product.id %}" method="post"
                                       class="form-group"> {% csrf_token %}
@@ -106,5 +107,5 @@
 
             </div>
         </div>
-    </div
+    </div>
 {% endblock content %}
